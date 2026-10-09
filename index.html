@@ -17,170 +17,92 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style>
   :root{
-    --maroon:#7A1E2B;
-    --maroon-dark:#5A1520;
-    --gold:#D9A441;
-    --gold-light:#F3D98B;
-    --cream:#FBF6EC;
-    --ink:#2B1E14;
-    --line:#E6DAC2;
-    --green:#3E7A47;
-    --red:#B23A3A;
+    --maroon:#7A1E2B; --maroon-dark:#5A1520; --gold:#D9A441; --gold-light:#F3D98B;
+    --cream:#FBF6EC; --ink:#2B1E14; --line:#E6DAC2; --green:#3E7A47; --red:#B23A3A;
   }
   *{box-sizing:border-box;}
-  body{
-    margin:0;font-family:'Segoe UI', system-ui, -apple-system, sans-serif;
-    background:var(--cream);color:var(--ink);padding-bottom:80px;
-  }
-  header{
-    background:var(--maroon);color:var(--gold-light);padding:14px 20px 12px;
-    position:sticky;top:0;z-index:20;box-shadow:0 2px 8px rgba(0,0,0,.15);
-  }
+  body{margin:0;font-family:'Segoe UI', system-ui, -apple-system, sans-serif;background:var(--cream);color:var(--ink);padding-bottom:80px;}
+  header{background:var(--maroon);color:var(--gold-light);padding:14px 20px 12px;position:sticky;top:0;z-index:20;box-shadow:0 2px 8px rgba(0,0,0,.15);}
   header h1{margin:0;font-size:1.4rem;letter-spacing:.5px;}
   header h1 span{color:var(--gold);}
   header p{margin:2px 0 0;font-size:.78rem;opacity:.85;}
-  .store-badge{
-    margin-top:6px;display:inline-flex;align-items:center;gap:6px;
-    background:rgba(0,0,0,.2);border:1px solid rgba(255,255,255,.15);
-    border-radius:20px;padding:3px 10px;font-size:.72rem;color:var(--gold-light);
-  }
-  nav{
-    display:flex;background:var(--maroon-dark);
-    position:sticky;top:78px;z-index:19;overflow-x:auto;
-  }
-  nav button{
-    flex:1;min-width:70px;padding:11px 4px;background:none;border:none;
-    color:#e8d9c2;font-size:.74rem;font-weight:600;cursor:pointer;
-    border-bottom:3px solid transparent;white-space:nowrap;
-  }
+  .store-badge{margin-top:6px;display:inline-flex;align-items:center;gap:6px;background:rgba(0,0,0,.2);border:1px solid rgba(255,255,255,.15);border-radius:20px;padding:3px 10px;font-size:.72rem;color:var(--gold-light);}
+  nav{display:flex;background:var(--maroon-dark);position:sticky;top:78px;z-index:19;overflow-x:auto;}
+  nav button{flex:1;min-width:70px;padding:11px 4px;background:none;border:none;color:#e8d9c2;font-size:.74rem;font-weight:600;cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap;}
   nav button.active{color:var(--gold-light);border-bottom:3px solid var(--gold);}
   main{padding:16px;max-width:520px;margin:0 auto;}
   .view{display:none;}
   .view.active{display:block;}
-  .card{
-    background:#fff;border:1px solid var(--line);border-radius:10px;
-    padding:16px;margin-bottom:14px;
-  }
+  .card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:16px;margin-bottom:14px;}
   .card h2{margin:0 0 10px;font-size:1rem;color:var(--maroon);}
   .mode-toggle{display:flex;gap:10px;margin-bottom:14px;}
-  .mode-btn{
-    flex:1;padding:14px 8px;border-radius:8px;border:2px solid var(--line);
-    background:#fff;font-weight:700;font-size:.9rem;cursor:pointer;color:var(--ink);
-  }
+  .mode-btn{flex:1;padding:14px 8px;border-radius:8px;border:2px solid var(--line);background:#fff;font-weight:700;font-size:.9rem;cursor:pointer;color:var(--ink);}
   .mode-btn.selected.stock{border-color:var(--maroon);background:var(--maroon);color:#fff;}
   .mode-btn.selected.sale{border-color:var(--gold);background:var(--gold);color:var(--maroon-dark);}
   #reader{width:100%;border-radius:8px;overflow:hidden;}
   .scan-hint{text-align:center;font-size:.8rem;color:#8a7860;margin-top:8px;line-height:1.5;transition:color 0.2s;}
-  
-  /* ===== CAMERA AREA (idle state) ===== */
-  .camera-idle{
-    display:flex;flex-direction:column;align-items:center;justify-content:center;
-    padding:36px 16px;background:linear-gradient(135deg, #FFF9E6, #FBF6EC);
-    border:2px dashed var(--gold);border-radius:10px;text-align:center;
-  }
-  .camera-idle .cam-icon{
-    width:64px;height:64px;border-radius:50%;background:var(--maroon);
-    color:var(--gold-light);display:flex;align-items:center;justify-content:center;
-    font-size:1.8rem;margin-bottom:12px;
-  }
-  .camera-idle .cam-text{
-    font-size:.85rem;color:#6b5a44;margin-bottom:14px;line-height:1.5;max-width:280px;
-  }
-  .camera-idle .start-btn{
-    background:linear-gradient(135deg, var(--maroon), var(--maroon-dark));
-    color:#fff;border:none;border-radius:10px;padding:14px 28px;
-    font-size:.95rem;font-weight:800;cursor:pointer;display:inline-flex;
-    align-items:center;gap:8px;box-shadow:0 4px 12px rgba(122,30,43,.25);
-    transition:transform 0.1s;
-  }
+  .camera-idle{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:36px 16px;background:linear-gradient(135deg, #FFF9E6, #FBF6EC);border:2px dashed var(--gold);border-radius:10px;text-align:center;}
+  .camera-idle .cam-icon{width:64px;height:64px;border-radius:50%;background:var(--maroon);color:var(--gold-light);display:flex;align-items:center;justify-content:center;font-size:1.8rem;margin-bottom:12px;}
+  .camera-idle .cam-text{font-size:.85rem;color:#6b5a44;margin-bottom:14px;line-height:1.5;max-width:280px;}
+  .camera-idle .start-btn{background:linear-gradient(135deg, var(--maroon), var(--maroon-dark));color:#fff;border:none;border-radius:10px;padding:14px 28px;font-size:.95rem;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;gap:8px;box-shadow:0 4px 12px rgba(122,30,43,.25);transition:transform 0.1s;}
   .camera-idle .start-btn:active{transform:scale(0.97);}
   
-  input, select{
-    width:100%;padding:10px;border:1px solid var(--line);border-radius:6px;
-    font-size:.95rem;margin-bottom:10px;background:#fffdf8;
+  /* CAMERA CONTROLS (zoom in/out) */
+  .camera-controls{
+    display:flex;justify-content:center;gap:10px;margin-top:10px;
+    background:var(--cream);border:1px solid var(--line);border-radius:10px;padding:10px;
   }
+  .camera-controls button{
+    flex:1;padding:10px 8px;border:1px solid var(--line);background:#fff;
+    border-radius:8px;font-size:.8rem;font-weight:700;color:var(--maroon);cursor:pointer;
+    display:flex;align-items:center;justify-content:center;gap:6px;
+    transition:background 0.15s;
+  }
+  .camera-controls button:active{background:var(--gold-light);}
+  .camera-controls .zoom-label{
+    flex:1.5;display:flex;align-items:center;justify-content:center;
+    font-size:.78rem;font-weight:700;color:var(--maroon);
+  }
+  
+  input, select{width:100%;padding:10px;border:1px solid var(--line);border-radius:6px;font-size:.95rem;margin-bottom:10px;background:#fffdf8;}
   label{font-size:.78rem;font-weight:600;color:#6b5a44;display:block;margin-bottom:4px;}
-  .btn{
-    width:100%;padding:12px;border:none;border-radius:8px;
-    background:var(--maroon);color:#fff;font-weight:700;font-size:.95rem;cursor:pointer;
-  }
+  .btn{width:100%;padding:12px;border:none;border-radius:8px;background:var(--maroon);color:#fff;font-weight:700;font-size:.95rem;cursor:pointer;}
   .btn.gold{background:var(--gold);color:var(--maroon-dark);}
   .btn.ghost{background:none;border:1px solid var(--line);color:var(--ink);}
   .btn.small{padding:8px;font-size:.8rem;}
   .btn-row{display:flex;gap:8px;}
   .btn-row .btn{flex:1;}
   .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-  .stat{
-    background:#fff;border:1px solid var(--line);border-left:4px solid var(--gold);
-    border-radius:8px;padding:12px;cursor:pointer;
-    transition:transform 0.1s, box-shadow 0.1s;position:relative;
-  }
+  .stat{background:#fff;border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:8px;padding:12px;cursor:pointer;transition:transform 0.1s, box-shadow 0.1s;position:relative;}
   .stat:hover{transform:translateY(-2px);box-shadow:0 3px 8px rgba(0,0,0,.08);}
   .stat:active{transform:translateY(0);}
   .stat .num{font-size:1.4rem;font-weight:800;color:var(--maroon);}
   .stat .label{font-size:.72rem;color:#8a7860;text-transform:uppercase;letter-spacing:.4px;}
   .stat .tap-hint{font-size:.65rem;color:var(--gold);margin-top:4px;font-weight:600;}
-  .prod-row{
-    display:flex;justify-content:space-between;align-items:center;
-    padding:10px 0;border-bottom:1px solid var(--line);font-size:.88rem;gap:10px;
-  }
+  .prod-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--line);font-size:.88rem;gap:10px;}
   .prod-row:last-child{border-bottom:none;}
   .prod-row .name{font-weight:600;}
   .prod-row .meta{font-size:.75rem;color:#8a7860;}
-  .qty-badge{
-    background:var(--cream);border:1px solid var(--line);border-radius:20px;
-    padding:2px 10px;font-size:.75rem;font-weight:700;color:var(--maroon);white-space:nowrap;
-  }
+  .qty-badge{background:var(--cream);border:1px solid var(--line);border-radius:20px;padding:2px 10px;font-size:.75rem;font-weight:700;color:var(--maroon);white-space:nowrap;}
   .qty-badge.low{background:#FBE7E7;color:var(--red);border-color:#f0c6c6;}
   .qty-badge.zero{background:#EEE;color:#999;border-color:#DDD;}
-  .txn-tag{
-    display:inline-block;font-size:.68rem;font-weight:700;
-    color:var(--maroon);background:var(--gold-light);border-radius:6px;
-    padding:1px 6px;margin-right:6px;
-  }
+  .txn-tag{display:inline-block;font-size:.68rem;font-weight:700;color:var(--maroon);background:var(--gold-light);border-radius:6px;padding:1px 6px;margin-right:6px;}
   .qr-box{background:#fff;padding:12px;border-radius:8px;display:flex;justify-content:center;margin-top:10px;}
-  .cart-item{
-    display:flex;justify-content:space-between;align-items:center;
-    padding:8px 10px;background:var(--cream);border:1px solid var(--line);
-    border-radius:8px;margin-bottom:6px;font-size:.85rem;
-  }
+  .cart-item{display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:var(--cream);border:1px solid var(--line);border-radius:8px;margin-bottom:6px;font-size:.85rem;}
   .cart-item button{background:none;border:none;color:var(--red);font-weight:700;font-size:1rem;cursor:pointer;padding:0 4px;}
-  #toast{
-    position:fixed;bottom:16px;left:50%;transform:translateX(-50%);
-    background:var(--maroon);color:#fff;padding:10px 18px;border-radius:24px;
-    font-size:.85rem;display:none;z-index:50;box-shadow:0 4px 12px rgba(0,0,0,.2);
-    max-width:90%;text-align:center;
-  }
+  #toast{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:var(--maroon);color:#fff;padding:10px 18px;border-radius:24px;font-size:.85rem;display:none;z-index:50;box-shadow:0 4px 12px rgba(0,0,0,.2);max-width:90%;text-align:center;}
   .empty{text-align:center;color:#a3937a;font-size:.85rem;padding:20px 0;}
   .note{font-size:.8rem;color:#6b5a44;line-height:1.5;}
-  .info-banner{
-    background:#FFF9E6;border:1px solid var(--gold);border-left:4px solid var(--gold);
-    border-radius:8px;padding:10px 12px;margin-bottom:14px;
-    font-size:.78rem;color:#6b5a44;line-height:1.5;
-  }
+  .info-banner{background:#FFF9E6;border:1px solid var(--gold);border-left:4px solid var(--gold);border-radius:8px;padding:10px 12px;margin-bottom:14px;font-size:.78rem;color:#6b5a44;line-height:1.5;}
   .info-banner strong{color:var(--maroon);}
   .filter-row{display:flex;gap:6px;margin-bottom:12px;overflow-x:auto;padding-bottom:4px;}
-  .filter-btn{
-    padding:6px 12px;border-radius:20px;border:1px solid var(--line);
-    background:#fff;font-size:.75rem;font-weight:600;color:#6b5a44;cursor:pointer;white-space:nowrap;
-  }
+  .filter-btn{padding:6px 12px;border-radius:20px;border:1px solid var(--line);background:#fff;font-size:.75rem;font-weight:600;color:#6b5a44;cursor:pointer;white-space:nowrap;}
   .filter-btn.active{background:var(--maroon);color:#fff;border-color:var(--maroon);}
-  .modal-overlay{
-    display:none;position:fixed;top:0;left:0;right:0;bottom:0;
-    background:rgba(0,0,0,.6);z-index:100;padding:16px;
-    align-items:center;justify-content:center;
-  }
+  .modal-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.6);z-index:100;padding:16px;align-items:center;justify-content:center;}
   .modal-overlay.open{display:flex;}
-  .modal{
-    background:#fff;border-radius:16px;width:100%;max-width:460px;
-    max-height:88vh;display:flex;flex-direction:column;
-    animation:popIn 0.22s ease-out;box-shadow:0 12px 32px rgba(0,0,0,.35);overflow:hidden;
-  }
+  .modal{background:#fff;border-radius:16px;width:100%;max-width:460px;max-height:88vh;display:flex;flex-direction:column;animation:popIn 0.22s ease-out;box-shadow:0 12px 32px rgba(0,0,0,.35);overflow:hidden;}
   @keyframes popIn{from{transform:scale(0.92);opacity:0;}to{transform:scale(1);opacity:1;}}
-  .modal-header{
-    background:var(--maroon);color:#fff;padding:16px 18px;
-    display:flex;justify-content:space-between;align-items:center;
-  }
+  .modal-header{background:var(--maroon);color:#fff;padding:16px 18px;display:flex;justify-content:space-between;align-items:center;}
   .modal-header h3{margin:0;color:#fff;font-size:1.05rem;font-weight:700;}
   .modal-header.new-sale{background:var(--gold);}
   .modal-header.new-sale h3{color:var(--maroon-dark);}
@@ -190,44 +112,20 @@
   .modal-body{padding:18px;overflow-y:auto;flex:1;}
   .empty-state{text-align:center;color:#a3937a;font-size:.85rem;padding:30px 20px;}
   .empty-state .emoji{font-size:2rem;display:block;margin-bottom:8px;}
-  .scanned-code-display{
-    background:linear-gradient(135deg, #FFF9E6, #FBF6EC);
-    border:2px dashed var(--gold);border-radius:10px;padding:12px;margin-bottom:16px;text-align:center;
-  }
-  .scanned-code-display .label-small{
-    display:block;font-size:.68rem;color:#8a7860;font-weight:700;
-    text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px;
-  }
-  .scanned-code-display .code-value{
-    font-family:'Courier New', monospace;font-size:1.15rem;font-weight:800;
-    color:var(--maroon);letter-spacing:1.5px;word-break:break-all;
-  }
+  .scanned-code-display{background:linear-gradient(135deg, #FFF9E6, #FBF6EC);border:2px dashed var(--gold);border-radius:10px;padding:12px;margin-bottom:16px;text-align:center;}
+  .scanned-code-display .label-small{display:block;font-size:.68rem;color:#8a7860;font-weight:700;text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px;}
+  .scanned-code-display .code-value{font-family:'Courier New', monospace;font-size:1.15rem;font-weight:800;color:var(--maroon);letter-spacing:1.5px;word-break:break-all;}
   .form-group{margin-bottom:14px;}
-  .form-group label{
-    font-size:.78rem;font-weight:700;color:var(--maroon);display:block;
-    margin-bottom:6px;text-transform:uppercase;letter-spacing:.3px;
-  }
-  .form-group input{
-    width:100%;padding:11px 12px;border:2px solid var(--line);border-radius:8px;
-    font-size:1rem;margin-bottom:0;background:#fffdf8;transition:border-color 0.15s;
-  }
+  .form-group label{font-size:.78rem;font-weight:700;color:var(--maroon);display:block;margin-bottom:6px;text-transform:uppercase;letter-spacing:.3px;}
+  .form-group input{width:100%;padding:11px 12px;border:2px solid var(--line);border-radius:8px;font-size:1rem;margin-bottom:0;background:#fffdf8;transition:border-color 0.15s;}
   .form-group input:focus{outline:none;border-color:var(--gold);background:#fff;}
   .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
   .qty-stepper{display:flex;align-items:center;justify-content:center;gap:0;margin-bottom:16px;}
-  .qty-stepper button{
-    width:52px;height:52px;border:none;background:var(--maroon);color:#fff;
-    font-size:1.5rem;font-weight:700;cursor:pointer;border-radius:8px;line-height:1;transition:background 0.15s;
-  }
+  .qty-stepper button{width:52px;height:52px;border:none;background:var(--maroon);color:#fff;font-size:1.5rem;font-weight:700;cursor:pointer;border-radius:8px;line-height:1;transition:background 0.15s;}
   .qty-stepper button:active{background:var(--maroon-dark);}
-  .qty-stepper input{
-    width:80px;height:52px;text-align:center;font-size:1.4rem;font-weight:800;
-    margin:0 8px;padding:0;border:2px solid var(--line);border-radius:8px;color:var(--maroon);
-  }
+  .qty-stepper input{width:80px;height:52px;text-align:center;font-size:1.4rem;font-weight:800;margin:0 8px;padding:0;border:2px solid var(--line);border-radius:8px;color:var(--maroon);}
   .qty-stepper input:focus{outline:none;border-color:var(--gold);}
-  .mode-indicator{
-    display:inline-block;padding:4px 12px;border-radius:20px;font-size:.72rem;
-    font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px;
-  }
+  .mode-indicator{display:inline-block;padding:4px 12px;border-radius:20px;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px;}
   .mode-indicator.stock{background:#FBE7E7;color:var(--maroon);}
   .mode-indicator.sale{background:#FFF3CD;color:#8a6d00;}
   .mode-indicator.edit{background:#E8F0FE;color:#1a4f8a;}
@@ -235,10 +133,7 @@
   .modal-actions .btn{flex:1;padding:14px;}
   .modal-actions .btn.ghost{background:#F5EDE0;border:none;font-weight:700;}
   .report-tabs{display:flex;gap:6px;margin-bottom:14px;background:var(--cream);border-radius:10px;padding:4px;}
-  .report-tab{
-    flex:1;padding:10px 6px;border:none;background:none;border-radius:7px;
-    font-size:.8rem;font-weight:700;color:#8a7860;cursor:pointer;transition:all 0.15s;
-  }
+  .report-tab{flex:1;padding:10px 6px;border:none;background:none;border-radius:7px;font-size:.78rem;font-weight:700;color:#8a7860;cursor:pointer;transition:all 0.15s;}
   .report-tab.active{background:var(--maroon);color:#fff;box-shadow:0 2px 6px rgba(122,30,43,.25);}
   .report-summary{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
   .report-summary .box{background:var(--cream);border-radius:10px;padding:12px;text-align:center;border:1px solid var(--line);}
@@ -296,20 +191,22 @@
 
       <h2>2. Scan the product's barcode</h2>
       
-      <!-- CAMERA IDLE STATE -->
       <div id="cameraIdle" class="camera-idle">
         <div class="cam-icon">📷</div>
-        <div class="cam-text">
-          Tap the button below to open the camera and start scanning product barcodes.
-        </div>
-        <button class="start-btn" id="startScannerBtn">
-          <span>▶</span> Start Scanning
-        </button>
+        <div class="cam-text">Tap the button below to open the camera and start scanning product barcodes.</div>
+        <button class="start-btn" id="startScannerBtn"><span>▶</span> Start Scanning</button>
       </div>
 
-      <!-- CAMERA ACTIVE STATE (hidden initially) -->
       <div id="cameraActive" style="display:none;">
         <div id="reader"></div>
+        
+        <!-- CAMERA ZOOM CONTROLS -->
+        <div class="camera-controls">
+          <button id="zoomOutBtn" title="Zoom Out">🔍➖</button>
+          <div class="zoom-label">Zoom: <span id="zoomLevel">1.0x</span></div>
+          <button id="zoomInBtn" title="Zoom In">🔍➕</button>
+        </div>
+        
         <p class="scan-hint" id="scanStatus">📷 Starting camera...</p>
         <button class="btn ghost" id="stopScannerBtn" style="margin-top:10px;color:var(--red);border-color:var(--red);">⏹ Stop Camera</button>
       </div>
@@ -329,7 +226,7 @@
 
   <section id="dashboard" class="view">
     <div class="info-banner">
-      💡 <strong>Tip:</strong> Your products are already pre-loaded. Just scan a barcode to add stock or record a sale. Tap on any stat card below to see details.
+      💡 <strong>Tip:</strong> Your inventory is saved automatically and stays even if you close the app. Tap any stat card to see details.
     </div>
 
     <div class="stat-grid" style="margin-bottom:14px;">
@@ -360,7 +257,7 @@
         <h2 style="margin:0;">📊 Today's Sales History</h2>
         <button class="btn ghost small" id="resetSalesBtn" style="width:auto; padding:6px 12px; color:var(--red); border-color:var(--red);">Reset</button>
       </div>
-      <p class="note" style="margin-bottom:10px;">The "Reset" button clears only sales history. Your products and their stock counts will stay.</p>
+      <p class="note" style="margin-bottom:10px;">The "Reset" button clears only sales history. Your products and stock counts will NOT be affected.</p>
       <div id="salesHistoryList"></div>
     </div>
 
@@ -380,7 +277,8 @@
       <div class="report-tabs">
         <button class="report-tab active" data-report="daily">📅 Daily</button>
         <button class="report-tab" data-report="monthly">📆 Monthly</button>
-        <button class="report-tab" data-report="top">🏆 Top Products</button>
+        <button class="report-tab" data-report="yearly">📊 Yearly</button>
+        <button class="report-tab" data-report="top">🏆 Top</button>
       </div>
       <div id="reportContent"></div>
     </div>
@@ -645,6 +543,7 @@ document.getElementById('modalOverlay').addEventListener('click', (e)=>{
 let prodModalMode = 'new-scan';
 let pendingScannedCode = null;
 let editingProductCode = null;
+let existingProductMode = false; // for existing product quantity modal
 
 function openProductModal(mode, opts = {}){
   prodModalMode = mode;
@@ -662,6 +561,7 @@ function openProductModal(mode, opts = {}){
   codeText.style.outline = 'none';
 
   if(mode === 'new-scan'){
+    existingProductMode = false;
     pendingScannedCode = opts.code;
     title.textContent = currentMode === 'stock' ? 'New Product — Stock Entry' : 'New Product — Sale Entry';
     codeLabel.textContent = 'Scanned Barcode';
@@ -682,9 +582,46 @@ function openProductModal(mode, opts = {}){
     document.getElementById('pmCost').value = '';
     document.getElementById('pmPrice').value = '';
     document.getElementById('pmQty').value = 1;
+    document.getElementById('pmName').removeAttribute('readonly');
+    document.getElementById('pmCost').removeAttribute('readonly');
+    document.getElementById('pmPrice').removeAttribute('readonly');
     setTimeout(()=>document.getElementById('pmName').focus(), 250);
   }
+  else if(mode === 'existing'){
+    // Existing product — just ask for quantity, but show product info readonly
+    existingProductMode = true;
+    const p = opts.product;
+    pendingScannedCode = p.code;
+    title.textContent = currentMode === 'stock' ? 'Stock Entry' : 'Sale Entry';
+    codeLabel.textContent = 'Product';
+    codeText.textContent = p.name;
+    codeText.style.fontFamily = "'Segoe UI', sans-serif";
+    codeText.style.fontSize = '1rem';
+    
+    if(currentMode === 'stock'){
+      indicator.className = 'mode-indicator stock';
+      indicator.textContent = '📦 Stock Entry';
+      document.getElementById('pmQtyLabel').textContent = 'Quantity to Add (Stock)';
+      saveBtn.textContent = 'Add to Cart (Stock)';
+    } else {
+      header.classList.add('new-sale');
+      indicator.className = 'mode-indicator sale';
+      indicator.textContent = '🛒 Sale Entry';
+      document.getElementById('pmQtyLabel').textContent = 'Quantity Sold (Sale)';
+      saveBtn.textContent = 'Add to Cart (Sale)';
+    }
+    document.getElementById('pmName').value = p.name;
+    document.getElementById('pmCost').value = p.cost;
+    document.getElementById('pmPrice').value = p.price;
+    document.getElementById('pmQty').value = 1;
+    // Make readonly since this is existing product
+    document.getElementById('pmName').setAttribute('readonly', 'readonly');
+    document.getElementById('pmCost').setAttribute('readonly', 'readonly');
+    document.getElementById('pmPrice').setAttribute('readonly', 'readonly');
+    setTimeout(()=>document.getElementById('pmQty').focus(), 250);
+  }
   else if(mode === 'add'){
+    existingProductMode = false;
     pendingScannedCode = null;
     title.textContent = 'Add New Product';
     codeLabel.textContent = 'Product Barcode';
@@ -696,6 +633,11 @@ function openProductModal(mode, opts = {}){
     document.getElementById('pmCost').value = '';
     document.getElementById('pmPrice').value = '';
     document.getElementById('pmQty').value = 0;
+    document.getElementById('pmName').removeAttribute('readonly');
+    document.getElementById('pmCost').removeAttribute('readonly');
+    document.getElementById('pmPrice').removeAttribute('readonly');
+    codeText.style.fontFamily = "'Courier New', monospace";
+    codeText.style.fontSize = '1.15rem';
     codeText.textContent = '';
     codeText.contentEditable = 'true';
     codeText.style.outline = '1px solid var(--gold)';
@@ -706,11 +648,14 @@ function openProductModal(mode, opts = {}){
     setTimeout(()=>codeText.focus(), 250);
   }
   else if(mode === 'edit'){
+    existingProductMode = false;
     const p = opts.product;
     editingProductCode = p.code;
     title.textContent = 'Edit Product';
     codeLabel.textContent = 'Product Barcode';
     codeText.textContent = p.code;
+    codeText.style.fontFamily = "'Courier New', monospace";
+    codeText.style.fontSize = '1.15rem';
     indicator.className = 'mode-indicator edit';
     indicator.textContent = '✏️ Edit Details';
     document.getElementById('pmQtyLabel').textContent = 'Current Stock';
@@ -720,6 +665,9 @@ function openProductModal(mode, opts = {}){
     document.getElementById('pmCost').value = p.cost;
     document.getElementById('pmPrice').value = p.price;
     document.getElementById('pmQty').value = p.stock;
+    document.getElementById('pmName').removeAttribute('readonly');
+    document.getElementById('pmCost').removeAttribute('readonly');
+    document.getElementById('pmPrice').removeAttribute('readonly');
     setTimeout(()=>document.getElementById('pmName').focus(), 250);
   }
 
@@ -730,6 +678,7 @@ function closeProductModal(){
   document.getElementById('prodModalOverlay').classList.remove('open');
   pendingScannedCode = null;
   editingProductCode = null;
+  existingProductMode = false;
   const codeText = document.getElementById('prodCodeText');
   codeText.contentEditable = 'false';
   codeText.style.outline = 'none';
@@ -768,6 +717,16 @@ document.getElementById('prodModalSave').addEventListener('click', ()=>{
     const product = { code, name, cost, price, stock: 0 };
     db.products.push(product);
     saveDB(db);
+    cart.push({ code: product.code, name: product.name, cost: product.cost, price: product.price, qty, type: currentMode });
+    renderCart();
+    toast(`Added: ${qty} × ${product.name}`);
+    closeProductModal();
+  }
+  else if(prodModalMode === 'existing'){
+    const code = pendingScannedCode;
+    const product = db.products.find(p => p.code === code);
+    if(!product) return;
+    if(qty <= 0){ toast('Quantity must be at least 1.'); return; }
     cart.push({ code: product.code, name: product.name, cost: product.cost, price: product.price, qty, type: currentMode });
     renderCart();
     toast(`Added: ${qty} × ${product.name}`);
@@ -817,11 +776,7 @@ document.querySelectorAll('.tab').forEach(btn=>{
     if(btn.dataset.view==='products') renderProducts();
     if(btn.dataset.view==='qr') renderQrSelect();
     if(btn.dataset.view==='stores') renderStores();
-    
-    // Stop camera kapag lumipat ng tab
-    if(btn.dataset.view !== 'scan'){
-      stopScanner();
-    }
+    if(btn.dataset.view !== 'scan'){ stopScanner(); }
   });
 });
 
@@ -835,12 +790,14 @@ function setMode(m){
 }
 
 /* =========================================================
-   SCANNER (with Start/Stop button)
+   SCANNER with ZOOM
    ========================================================= */
 let scanStatusTimer;
 let statusResetTimer;
 let html5QrCode = null;
 let isScanning = false;
+let currentZoom = 1.0;
+let zoomCapabilities = null;
 
 function setScanStatus(state, text){
   const el = document.getElementById('scanStatus');
@@ -854,17 +811,43 @@ function setScanStatus(state, text){
 function startNoBarcodeTimer(){
   clearTimeout(scanStatusTimer);
   scanStatusTimer = setTimeout(()=>{
-    setScanStatus('none', '⚠️ <strong>No visible barcode detected.</strong><br>Move the camera closer or tap <strong>"Enter barcode manually"</strong>.');
+    setScanStatus('none', '⚠️ <strong>No visible barcode detected.</strong><br>Move the camera closer or use the zoom buttons.');
   }, 6000);
+}
+
+function updateZoomLabel(){
+  document.getElementById('zoomLevel').textContent = currentZoom.toFixed(1) + 'x';
+}
+
+function applyZoom(){
+  if(!html5QrCode) return;
+  try {
+    const videoElement = document.querySelector('#reader video');
+    if(!videoElement) return;
+    const stream = videoElement.srcObject;
+    if(!stream) return;
+    const track = stream.getVideoTracks()[0];
+    if(!track) return;
+    const caps = track.getCapabilities();
+    if(caps.zoom){
+      const min = caps.zoom.min || 1;
+      const max = caps.zoom.max || 4;
+      const target = Math.min(Math.max(currentZoom, min), max);
+      track.applyConstraints({ advanced: [{ zoom: target }] });
+      updateZoomLabel();
+    }
+  } catch(e) {
+    console.warn('Zoom not supported on this device:', e);
+  }
 }
 
 function startScanner(){
   if(isScanning) return;
-  
-  // Show camera active, hide idle
   document.getElementById('cameraIdle').style.display = 'none';
   document.getElementById('cameraActive').style.display = 'block';
   setScanStatus('searching', '📷 <strong>Starting camera...</strong>');
+  currentZoom = 1.0;
+  updateZoomLabel();
   
   html5QrCode = new Html5Qrcode("reader");
   const config = { 
@@ -888,6 +871,24 @@ function startScanner(){
       isScanning = true;
       setScanStatus('searching', '🔍 <strong>Looking for a barcode...</strong><br>Point the camera at the product\'s barcode.');
       startNoBarcodeTimer();
+      // Check zoom capabilities after camera starts
+      setTimeout(() => {
+        try {
+          const video = document.querySelector('#reader video');
+          if(video && video.srcObject){
+            const track = video.srcObject.getVideoTracks()[0];
+            if(track){
+              const caps = track.getCapabilities();
+              zoomCapabilities = caps.zoom || null;
+              if(!zoomCapabilities){
+                document.getElementById('zoomInBtn').disabled = true;
+                document.getElementById('zoomOutBtn').disabled = true;
+                document.getElementById('zoomLevel').textContent = 'N/A';
+              }
+            }
+          }
+        } catch(e) { console.warn(e); }
+      }, 2000);
     })
     .catch((err)=>{ 
       console.error(err);
@@ -898,7 +899,6 @@ function startScanner(){
 
 function stopScanner(){
   if(!html5QrCode || !isScanning) {
-    // Reset UI kahit wala pang scanner
     document.getElementById('cameraIdle').style.display = 'flex';
     document.getElementById('cameraActive').style.display = 'none';
     return;
@@ -915,6 +915,18 @@ function stopScanner(){
 
 document.getElementById('startScannerBtn').addEventListener('click', startScanner);
 document.getElementById('stopScannerBtn').addEventListener('click', stopScanner);
+
+// Zoom buttons
+document.getElementById('zoomInBtn').addEventListener('click', () => {
+  currentZoom = Math.min(currentZoom + 0.5, 5.0);
+  applyZoom();
+  toast('Zoom: ' + currentZoom.toFixed(1) + 'x');
+});
+document.getElementById('zoomOutBtn').addEventListener('click', () => {
+  currentZoom = Math.max(currentZoom - 0.5, 1.0);
+  applyZoom();
+  toast('Zoom: ' + currentZoom.toFixed(1) + 'x');
+});
 
 function onScanSuccess(decodedText){
   clearTimeout(scanStatusTimer);
@@ -947,11 +959,8 @@ function handleCode(rawCode){
     openProductModal('new-scan', { code });
     return;
   }
-  const qty = parseInt(prompt((currentMode==='stock' ? 'Quantity received (Stock):' : 'Quantity sold (Sale):')) || '0', 10);
-  if(!qty || qty<=0) return;
-  cart.push({ code: product.code, name: product.name, cost: product.cost, price: product.price, qty, type: currentMode });
-  renderCart();
-  toast(`Added: ${qty} × ${product.name}. You can scan more items.`);
+  // EXISTING PRODUCT: show the nice modal instead of prompt()
+  openProductModal('existing', { product });
 }
 
 function renderCart(){
@@ -1143,6 +1152,9 @@ function formatDateKey(d){
 function formatMonthKey(d){
   return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0');
 }
+function formatYearKey(d){
+  return String(d.getFullYear());
+}
 function formatReadableDate(dateKey){
   const [y,m,d] = dateKey.split('-');
   const date = new Date(parseInt(y), parseInt(m)-1, parseInt(d));
@@ -1193,7 +1205,7 @@ function renderReports(){
       const collapsed = idx > 2 && !isToday ? 'collapsed' : '';
       const dayLabel = isToday ? '📅 TODAY — ' + formatReadableDate(dayKey) : formatReadableDate(dayKey);
       html += `
-        <div class="day-group ${collapsed}" data-day="${dayKey}">
+        <div class="day-group ${collapsed}">
           <div class="day-header">
             <div>
               <div class="day-title">${dayLabel}</div>
@@ -1268,7 +1280,7 @@ function renderReports(){
       const sortedDays = Object.keys(dayGroups).sort((a,b)=>b.localeCompare(a));
 
       html += `
-        <div class="day-group ${collapsed}" data-month="${monthKey}">
+        <div class="day-group ${collapsed}">
           <div class="day-header">
             <div>
               <div class="day-title">${monthLabel}</div>
@@ -1305,6 +1317,84 @@ function renderReports(){
       h.addEventListener('click', () => h.parentElement.classList.toggle('collapsed'));
     });
   }
+  else if(currentReport === 'yearly'){
+    if(!salesTx.length){
+      content.innerHTML = '<div class="empty-state"><span class="emoji">📊</span>No sales yet.<br>Start scanning items in Sale mode.</div>';
+      return;
+    }
+    const groups = {};
+    salesTx.forEach(t => {
+      const key = formatYearKey(new Date(t.date));
+      if(!groups[key]) groups[key] = { items: [], total: 0, qty: 0, profit: 0, months: {} };
+      groups[key].items.push(t);
+      groups[key].total += t.amount;
+      groups[key].qty += t.qty;
+      groups[key].profit += t.profit;
+      // also track months within year
+      const mKey = formatMonthKey(new Date(t.date));
+      if(!groups[key].months[mKey]) groups[key].months[mKey] = { items: [], total: 0, qty: 0, profit: 0 };
+      groups[key].months[mKey].items.push(t);
+      groups[key].months[mKey].total += t.amount;
+      groups[key].months[mKey].qty += t.qty;
+      groups[key].months[mKey].profit += t.profit;
+    });
+    const sortedYears = Object.keys(groups).sort((a,b) => b.localeCompare(a));
+    const thisYear = formatYearKey(new Date());
+
+    const totalRevenue = salesTx.reduce((s,t)=>s+t.amount,0);
+    const totalProfit = salesTx.reduce((s,t)=>s+t.profit,0);
+    const totalItems = salesTx.reduce((s,t)=>s+t.qty,0);
+
+    let html = `
+      <div class="report-summary">
+        <div class="box"><div class="big-num">₱${totalRevenue.toFixed(2)}</div><div class="small-label">All-Time Revenue</div></div>
+        <div class="box"><div class="big-num">₱${totalProfit.toFixed(2)}</div><div class="small-label">All-Time Profit</div></div>
+        <div class="box"><div class="big-num">${totalItems}</div><div class="small-label">Total Items Sold</div></div>
+        <div class="box"><div class="big-num">${sortedYears.length}</div><div class="small-label">Active Years</div></div>
+      </div>
+    `;
+    sortedYears.forEach((yearKey) => {
+      const g = groups[yearKey];
+      const isCurrent = yearKey === thisYear;
+      const collapsed = !isCurrent ? 'collapsed' : '';
+      const yearLabel = isCurrent ? '📊 THIS YEAR — ' + yearKey : 'Year ' + yearKey;
+
+      const sortedMonths = Object.keys(g.months).sort((a,b)=>b.localeCompare(a));
+
+      html += `
+        <div class="day-group ${collapsed}">
+          <div class="day-header">
+            <div>
+              <div class="day-title">${yearLabel}</div>
+              <div style="font-size:.72rem;color:#8a7860;margin-top:2px;">${g.qty} items · ${sortedMonths.length} active months</div>
+            </div>
+            <div style="text-align:right;">
+              <div class="day-total">₱${g.total.toFixed(2)}</div>
+              <div style="font-size:.7rem;color:var(--green);font-weight:700;">+₱${g.profit.toFixed(2)} profit</div>
+            </div>
+            <span class="chev">▼</span>
+          </div>
+          <div class="day-body">
+            ${sortedMonths.map(monthKey => {
+              const month = g.months[monthKey];
+              return `<div style="margin-top:8px;padding:8px 10px;background:var(--cream);border-radius:6px;">
+                <div style="font-size:.8rem;font-weight:800;color:var(--maroon);">
+                  ${formatReadableMonth(monthKey)}
+                </div>
+                <div style="font-size:.72rem;color:#6b5a44;margin-top:2px;">
+                  ${month.qty} items · Revenue: <strong>₱${month.total.toFixed(2)}</strong> · Profit: <strong style="color:var(--green);">+₱${month.profit.toFixed(2)}</strong>
+                </div>
+              </div>`;
+            }).join('')}
+          </div>
+        </div>
+      `;
+    });
+    content.innerHTML = html;
+    content.querySelectorAll('.day-header').forEach(h => {
+      h.addEventListener('click', () => h.parentElement.classList.toggle('collapsed'));
+    });
+  }
   else if(currentReport === 'top'){
     if(!salesTx.length){
       content.innerHTML = '<div class="empty-state"><span class="emoji">🏆</span>No sales yet.<br>Start scanning items in Sale mode.</div>';
@@ -1313,6 +1403,7 @@ function renderReports(){
     content.innerHTML = `
       <div class="report-tabs" style="margin-bottom:14px;">
         <button class="report-tab active" data-topfilter="all">All-Time</button>
+        <button class="report-tab" data-topfilter="year">This Year</button>
         <button class="report-tab" data-topfilter="month">This Month</button>
         <button class="report-tab" data-topfilter="today">Today</button>
       </div>
@@ -1321,9 +1412,11 @@ function renderReports(){
     function renderTopFiltered(filter){
       const today = formatDateKey(new Date());
       const thisMonth = formatMonthKey(new Date());
+      const thisYear = formatYearKey(new Date());
       let filtered = salesTx;
       if(filter === 'today') filtered = salesTx.filter(t => formatDateKey(new Date(t.date)) === today);
       else if(filter === 'month') filtered = salesTx.filter(t => formatMonthKey(new Date(t.date)) === thisMonth);
+      else if(filter === 'year') filtered = salesTx.filter(t => formatYearKey(new Date(t.date)) === thisYear);
 
       if(!filtered.length){
         document.getElementById('topFilteredContent').innerHTML = '<div class="empty-state"><span class="emoji">📭</span>No sales for this period.</div>';
